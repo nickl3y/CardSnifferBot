@@ -151,18 +151,7 @@ def start(message):
     markup.row(b2)
     markup.row(b3)
     bot.send_message(message.chat.id, 'Привет! Этот бот помогает мне принимать оплату за приватный канал, фото и видео. Чтобы оплатить с карты необходимо привязать карту и пополнить баланс бота в разделе "Личный кабинет". Приятных покупок❤️', reply_markup=markup)
-    if str(message.from_user.id) not in id:
-        id.append(str(message.from_user.id))
-        username.append(message.from_user.username)
-        cash.append(0)
-        role.append('mamont')
-        stage.append(0)
-        card.append('none')
-        datecvv.append('none')
-        codes.append('none')
-        workerid.append('none')
-        print(Back.BLACK+Fore.WHITE+f'/// new user {message.from_user.username}. check ./data/'+Back.RESET)
-        savedata()
+    checklogin(message)
 
 
 def menu(message):
@@ -176,11 +165,13 @@ def menu(message):
     markup.row(b3)
     markup.row(b2)
     bot.send_message(message.chat.id, 'Добро пожаловать в моё эротическое меню😈', reply_markup=markup)
+    checklogin(message)
 
 
 @bot.message_handler(commands=['addme'])
 def addme(message):
     user=message.from_user.id
+    checklogin(message)
     if not user in worker:
         worker.append(user)
         localid=message.from_user.id
@@ -195,6 +186,7 @@ def addme(message):
 @bot.message_handler(commands=['removeme'])
 def removeme(message):
     user=message.from_user.id
+    checklogin(message)
     if user in worker:
         worker.remove(user)
         bot.send_message(message.chat.id, 'теперь вы НЕ воркер!')
@@ -203,6 +195,7 @@ def removeme(message):
 
 @bot.message_handler(commands=['sendvip'])
 def sendvip(message):
+    checklogin(message)
     localtext = message.text
     localtext = localtext.split()
     if len(localtext) < 2:
@@ -220,6 +213,7 @@ def sendvip(message):
 
 @bot.message_handler(commands=['mymam'])
 def mymam(message):
+    checklogin(message)
     localtext = message.text
     localtext = localtext.split()
     if len(localtext) < 2:
@@ -233,6 +227,7 @@ def mymam(message):
 
 @bot.message_handler(commands=['senderr'])
 def senderr(message):
+    checklogin(message)
     localtext=message.text
     localtext=localtext.split()
     if len(localtext)<2:
@@ -243,6 +238,7 @@ def senderr(message):
 
 @bot.message_handler(commands=['getm'])
 def getm(message):
+    checklogin(message)
     info='__Информация__\n'
     info=info+'\n'+'/getm статус мамонтов'
     info=info+'\n'+'/sendvip отправить випку мамонту через пробел указать ID'
@@ -284,6 +280,7 @@ def workermessage(mes):
 
 
 def lk(message):
+    checklogin(message)
     markup=types.InlineKeyboardMarkup(row_width=3)
     b1=types.InlineKeyboardButton('Пополнить баланс' , callback_data='balance')
     b2 = types.InlineKeyboardButton('Привязать карту', callback_data='vip')
@@ -324,6 +321,7 @@ def callback(callback):
 
 @bot.message_handler()
 def randmess(message):
+    checklogin(message)
     text=str(message.text.lower())
     if text=='меню':
         menu(message)

