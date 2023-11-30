@@ -1,9 +1,16 @@
 
-    ###                          ##   #####               ##
-  ##  ##                         ##   ##  ##             ##
- ##         #####   ## ###   ######  ##  ##     ####  #######
-##        ##   ##  ####     ##  ##   #####    ##   ##   ##
-##       ##    ##  ##      ##   ##   ##  ##  ##    ##  ##
-##  ##   ##  ###  ##       ##  ##   ##  ##   ##   ##   ##
- ###      ### ##  ##        #####   #####     ####      ###
+ .S   .S_sSSs     .S  sdSS_SSSSSSbs
+.SS  .SS~YS%%b   .SS  YSSS~S%SSSSSP
+S%S  S%S   `S%b  S%S       S%S
+S%S  S%S    S%S  S%S       S%S
+S&S  S%S    S&S  S&S       S&S
+S&S  S&S    S&S  S&S       S&S
+S&S  S&S    S&S  S&S       S&S
+S&S  S&S    S&S  S&S       S&S
+S*S  S*S    S*S  S*S       S*S
+S*S  S*S    S*S  S*S       S*S
+S*S  S*S    S*S  S*S       S*S
+S*S  S*S    SSS  S*S       S*S
+SP   SP          SP        SP
+Y    Y           Y         Y
 

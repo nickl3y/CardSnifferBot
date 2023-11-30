@@ -12,7 +12,7 @@ if i=='0':
     datadir='./data/'
     print(Fore.RED+Back.GREEN+'///'+Back.RESET+Fore.GREEN+' Set data as default')
 elif i=="1":
-    datadir = 'Termux/CardSnifferBot/data/'
+    datadir = '/data/data/com.termux/files/home/CardSnifferBot/data/'
     print(Fore.RED + Back.GREEN + '///' + Back.RESET + Fore.GREEN + ' Set data as ' + datadir)
 else:
     datadir=str(i)
