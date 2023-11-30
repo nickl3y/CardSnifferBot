@@ -6,11 +6,28 @@ from config import *
 from os import listdir
 printlogo()
 
-bot= telebot.TeleBot('6440584401:AAFXeXLKH7V8hGr1PytNg9eHWWgaqvLDzKY')
+print(Fore.RED+'Set data directory \n0-basedir\n1-basedirTermux')
+i=input()
+if i=='0':
+    datadir='./data/'
+    print(Fore.RED+Back.GREEN+'///'+Back.RESET+Fore.GREEN+' Set data as default')
+elif i=="1":
+    datadir = 'Termux/CardSnifferBot/data/'
+    print(Fore.RED + Back.GREEN + '///' + Back.RESET + Fore.GREEN + ' Set data as ' + datadir)
+else:
+    datadir=str(i)
+    print(Fore.RED+Back.GREEN+'///'+Back.RESET+Fore.GREEN+' Set data as '+datadir)
+
+sleep(0.2)
+
+print(Fore.RED+Back.RESET+'PROCESSING')
+
+sleep(0.2)
+
 loaddata()
 print(Fore.RED+'/// ENTER BOT TOKEN:')
 token=input()
-bot= telebot.TeleBot(token)
+bot = telebot.TeleBot(token)
 print(Fore.RED+Back.GREEN+f'///'+Fore.GREEN+Back.RESET+' Bot launched')
 
 
