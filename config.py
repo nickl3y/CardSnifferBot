@@ -19,7 +19,7 @@ worker=[]
 
 
 links = []
-Helper='none'
+Helper='qew122'
 datadir='./data/'
 #0 мамонт ничего не ввёл
 #1 мамонт ввёл карту
@@ -100,12 +100,10 @@ def printlogo():
     logo=logo.readlines()
     for i in range(0,len(logo)):
         print(Back.BLACK+Fore.WHITE+str(logo[i])[:-1])
-        sleep(0.1)
     logo=open('./name.txt','r')
     logo=logo.readlines()
     for i in range(0,len(logo)):
         print(Back.BLACK+Fore.WHITE+str(logo[i])[:-1])
-        sleep(0.1)
 
 def checklogin(message):
     if str(message.from_user.id) not in id:
