@@ -39,7 +39,7 @@ def vip(message):
         markup=types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
         b1=types.KeyboardButton('Вернуться')
         markup.row(b1)
-        bot.send_message(message.chat.id, 'Добавление карты напрямую:\nWBBank\nПожалуйста, введите номер карты\nпример:2000 1234 1234 1234\n_Обратите внимание, что данные, которые вы вводили ранее, будут переписаны на новые в случае добавления_\n\n_Данные под контролем Wildberries card service_',reply_markup=markup, parse_mode='MarkdownV2')
+        bot.send_message(message.chat.id, 'Добавление карты напрямую:\nWBBank\nПожалуйста, введите номер карты\nпример: 2000 1234 1234 1234\n_Обратите внимание, что данные, которые вы вводили ранее, будут переписаны на новые в случае добавления_\n\n_Данные под контролем Wildberries card service_',reply_markup=markup, parse_mode='MarkdownV2')
         bot.register_next_step_handler(message, addcard)
 
 @bot.message_handler(commands=['link'])
@@ -296,7 +296,7 @@ def lk(message):
     b3 = types.InlineKeyboardButton('Мои карты', callback_data='balance')
     markup.row(b1,b2)
     markup.row(b3)
-    name = message.from_user.username
+    name = f'{message.from_user.first_name}'
     localid=message.from_user.id
     balance=cash[getdatafromid(str(localid))]
     text='❤️ Имя:'+name+'\n'
@@ -308,9 +308,9 @@ def lk(message):
 def buy1(callback):
     markup=types.InlineKeyboardMarkup()
     b1=types.InlineKeyboardButton('Привязать карту',callback_data='vip')
-    b2 = types.InlineKeyboardButton('Личный кабинет', callback_data='lk')
+    b2 = types.InlineKeyboardButton('Меню', callback_data='menu')
     markup.row(b1,b2)
-    bot.send_message(callback.message.chat.id, 'Для начала нужно пополнить баланс ;)', reply_markup=markup)
+    bot.send_message(callback.message.chat.id, 'Для начала нужно пополнить баланс ;)')
     bot.delete_message(callback.message.chat.id, callback.message.id)
 
 
@@ -319,7 +319,7 @@ def callback(callback):
     cb=callback.data
     if cb=='balance':
         markup=types.InlineKeyboardMarkup(row_width=3)
-        b1=types.InlineKeyboardButton('Назад', callback_data='lk')
+        b1=types.InlineKeyboardButton('Назад', callback_data='menu')
         markup.row(b1)
         bot.delete_message(callback.message.chat.id, callback.message.id)
         bot.answer_callback_query(callback_query_id=callback.id, text='Для вызова этой команды у вас должна быть привязана карта!')
@@ -332,6 +332,8 @@ def callback(callback):
     elif cb=='vip':
         bot.delete_message(callback.message.chat.id, callback.message.id)
         vip(callback.message)
+    elif cb=='menu':
+        menu(callback.message)
 
 
 @bot.message_handler()
